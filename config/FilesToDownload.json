@@ -1,0 +1,22 @@
+[
+   {
+      "Url":"https://upload.wikimedia.org/wikipedia/commons/2/24/Skala_castle_palace.jpg",
+      "Path":"dowloadedFile/pic1.jpg"
+   },
+   {
+      "Url":"https://upload.wikimedia.org/wikipedia/commons/a/a8/HB-JYD_LLBG_24-01-2014-2.jpg",
+      "Path":"dowloadedFile/pic2.jpg"
+   },
+   {
+      "Url":"https://upload.wikimedia.org/wikipedia/commons/d/d2/Barrage_de_Moiry_%282%29.jpg",
+      "Path":"dowloadedFile/pic3.jpg"
+   },
+   {
+      "Url":"https://upload.wikimedia.org/wikipedia/commons/d/d6/Markov_grad%2C_Prilep%2C_Macedonia_18.jpg",
+      "Path":"dowloadedFile/pic4.jpg"
+   },
+   {
+      "Url":"https://fakefile",
+      "Path":"dowloadedFile/pic5.jpg"
+   }
+]
