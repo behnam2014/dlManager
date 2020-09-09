@@ -22,13 +22,16 @@ type downloadWriter struct {
 	size        uint64
 	printIndex  int64
 	startTimeDl time.Time
+	wg *sync.WaitGroup
+	reportString string
 }
 
 func (wc *downloadWriter) Write(p []byte) (int, error) {
 	n := len(p)
 	wc.total += uint64(n)
 	elapsed := time.Since(wc.startTimeDl)
-	fmt.Printf("\rDownloading %s... %f %c  and elapsed time: %s", wc.fileName, (float64(wc.total)/float64(wc.size))*100, '%', elapsed)
+	wc.reportString=fmt.Sprintf("\rDownloading %s... TIME: %s, Compeleted: %2.2f %c", wc.fileName, elapsed, (float64(wc.total)/float64(wc.size))*100,'%')
+	fmt.Printf(wc.reportString)
 	return n, nil
 }
 
@@ -44,10 +47,11 @@ func Download(url string, path string, wg *sync.WaitGroup, printIndex int64) err
 		return err
 	}
 	defer resp.Body.Close()
-	defer fmt.Println("")
+
 	size, err := strconv.Atoi(resp.Header.Get("Content-Length"))
 
-	counter := &downloadWriter{fileName: path, total: 0, size: uint64(size), printIndex: printIndex, startTimeDl: time.Now()}
+	counter := &downloadWriter{fileName: path, total: 0, size: uint64(size), printIndex: printIndex, startTimeDl: time.Now(), wg: wg}
+	defer fmt.Println(counter.reportString)
 	if _, err = io.Copy(out, io.TeeReader(resp.Body, counter)); err != nil {
 		_ = out.Close()
 		return err
@@ -89,7 +93,7 @@ func main() {
 		}()
 	}
 	wg.Wait()
-
+	time.Sleep(time.Millisecond)
 	fmt.Println("Download Finished")
 
 }
