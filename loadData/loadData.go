@@ -11,11 +11,12 @@ import (
 type LoadData struct {
 	UrlEntitieChanel chan urlEntitie
 	Conf             config
+	NumOfUrls        int
 }
 
-func New() LoadData {
-	var ld  LoadData
-	ld.UrlEntitieChanel, ld.Conf =loadData()
+func NewLoadData() LoadData {
+	var ld LoadData
+	ld.UrlEntitieChanel, ld.Conf, ld.NumOfUrls = loadData()
 	return ld
 }
 
@@ -57,7 +58,7 @@ func tagValidUrl(urlEntities *[]urlEntitie) {
 	*urlEntities = cleanUrls
 }
 
-func loadData() (chan urlEntitie, config) {
+func loadData() (chan urlEntitie, config, int) {
 	dat, err := ioutil.ReadFile("config/FilesToDownload.json")
 	var urlToDownload []urlEntitie
 	if err != nil {
@@ -85,5 +86,7 @@ func loadData() (chan urlEntitie, config) {
 		json.Unmarshal(datConfig, &conf)
 	}
 
-	return urlEntitieChanel, conf
+	numberOfUrltoDl := len(validUrlstoDownload)
+
+	return urlEntitieChanel, conf, numberOfUrltoDl
 }
